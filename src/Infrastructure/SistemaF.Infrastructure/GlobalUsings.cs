@@ -1,0 +1,6 @@
+global using Microsoft.EntityFrameworkCore;
+global using SistemaF.Domain.Common;
+global using SistemaF.Domain.Entities.Ordine;
+global using SistemaF.Domain.Entities.Prodotto;
+global using SistemaF.Domain.Interfaces;
+global using SistemaF.Domain.ValueObjects;

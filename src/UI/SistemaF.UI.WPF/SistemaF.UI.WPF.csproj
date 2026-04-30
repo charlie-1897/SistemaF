@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SistemaF.UI.WPF</RootNamespace>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <AssemblyTitle>SistemaF</AssemblyTitle>
+    <AssemblyVersion>7.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\SistemaF.Application\SistemaF.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\SistemaF.Infrastructure\SistemaF.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\SistemaF.Integration\SistemaF.Integration.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- MVVM Toolkit (sostituisce il code-behind VB6) -->
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
+    <!-- MediatR per inviare comandi e query dal ViewModel -->
+    <PackageReference Include="MediatR" Version="12.*" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.*" />
+    <!-- FluentValidation per validazione form -->
+    <PackageReference Include="FluentValidation" Version="11.*" />
+    <!-- Generic Host per DI e Configuration -->
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.*" />
+    <!-- Logging -->
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.*" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.*" />
+  </ItemGroup>
+</Project>

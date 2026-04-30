@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SistemaF.Integration</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\SistemaF.Domain\SistemaF.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Client SOAP per Federfarma — sostituisce CSFWSENET.dll VB6 -->
+    <PackageReference Include="System.ServiceModel.Http" Version="6.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.*" />
+  </ItemGroup>
+</Project>

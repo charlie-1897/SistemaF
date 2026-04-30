@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SistemaF.Domain</RootNamespace>
+    <AssemblyName>SistemaF.Domain</AssemblyName>
+  </PropertyGroup>
+  <!-- Nessuna dipendenza esterna: il Domain è il nucleo puro -->
+</Project>

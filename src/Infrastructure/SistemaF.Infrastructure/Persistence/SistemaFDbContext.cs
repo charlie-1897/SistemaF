@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaF.Domain.Common;
+using SistemaF.Domain.Entities.Anagrafica;
 using SistemaF.Domain.Entities.Ordine;
 using SistemaF.Domain.Entities.Prodotto;
 

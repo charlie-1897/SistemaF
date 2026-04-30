@@ -43,6 +43,12 @@ public static class InfrastructureDependencyInjection
         // Domain services
         services.AddScoped<EmissioneOrdineService>();
 
+        // Anagrafica repositories (Sessione 2 MVP)
+        services.AddScoped<IFornitoreRepository,                FornitoreRepository>();
+        services.AddScoped<IOperatoreRepository,                OperatoreRepository>();
+        services.AddScoped<IConfigurazioneEmissioneRepository,  ConfigurazioneEmissioneRepository>();
+        services.AddScoped<IFarmaciaRepository,                 FarmaciaRepository>();
+
         // Stub services (temporanei fino a Wave 2)
         services.AddScoped<IUltimiCostiService,     StubUltimiCostiService>();
         services.AddScoped<IListiniFornitorService,  StubListiniFornitorService>();
@@ -64,6 +70,9 @@ public static class InfrastructureDependencyInjection
         var db = scope.ServiceProvider.GetRequiredService<SistemaFDbContext>();
         await db.Database.MigrateAsync();
         if (seedDemoData)
+        {
             await Seed.DataSeeder.SeedAsync(db);
+            await Seed.DataSeeder.SeedAnagraficaAsync(db);
+        }
     }
 }

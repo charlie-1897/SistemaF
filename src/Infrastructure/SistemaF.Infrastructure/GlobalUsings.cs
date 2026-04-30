@@ -4,3 +4,4 @@ global using SistemaF.Domain.Entities.Ordine;
 global using SistemaF.Domain.Entities.Prodotto;
 global using SistemaF.Domain.Interfaces;
 global using SistemaF.Domain.ValueObjects;
+global using SistemaF.Domain.Entities.Anagrafica;

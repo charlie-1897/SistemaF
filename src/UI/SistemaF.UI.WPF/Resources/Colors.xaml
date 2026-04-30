@@ -1,0 +1,54 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         PALETTE COLORI — SistemaF
+         
+         Verde farmacia: colore istituzionale della croce verde
+         Blu scuro:      sidebar navigation
+         Grigio chiaro:  sfondi secondari
+         Rosso:          avvisi, scadenze, sottoscorta
+         Arancio:        avvisi medi
+    ══════════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Verde farmacia (croce verde) -->
+    <Color x:Key="FarmaciaGreenColor">#FF2E8B57</Color>
+    <Color x:Key="FarmaciaGreenDarkColor">#FF1F6B40</Color>
+    <Color x:Key="FarmaciaGreenLightColor">#FFE8F5EE</Color>
+
+    <!-- Blu sidebar -->
+    <Color x:Key="SidebarBluColor">#FF1A2B4A</Color>
+    <Color x:Key="SidebarBluHoverColor">#FF243860</Color>
+    <Color x:Key="SidebarBluActiveColor">#FF2E8B57</Color>
+
+    <!-- Grigi UI -->
+    <Color x:Key="BackgroundColor">#FFF5F7FA</Color>
+    <Color x:Key="SurfaceColor">#FFFFFFFF</Color>
+    <Color x:Key="BorderColor">#FFE0E6ED</Color>
+    <Color x:Key="TextPrimaryColor">#FF1A1D23</Color>
+    <Color x:Key="TextSecondaryColor">#FF6B7280</Color>
+    <Color x:Key="TextTertiaryColor">#FF9CA3AF</Color>
+
+    <!-- Semafori disponibilità -->
+    <Color x:Key="SuccessColor">#FF16A34A</Color>
+    <Color x:Key="WarningColor">#FFD97706</Color>
+    <Color x:Key="DangerColor">#FFDC2626</Color>
+
+    <!-- Solidbrush -->
+    <SolidColorBrush x:Key="FarmaciaGreenBrush"      Color="{StaticResource FarmaciaGreenColor}"/>
+    <SolidColorBrush x:Key="FarmaciaGreenDarkBrush"  Color="{StaticResource FarmaciaGreenDarkColor}"/>
+    <SolidColorBrush x:Key="FarmaciaGreenLightBrush" Color="{StaticResource FarmaciaGreenLightColor}"/>
+    <SolidColorBrush x:Key="SidebarBluBrush"         Color="{StaticResource SidebarBluColor}"/>
+    <SolidColorBrush x:Key="SidebarBluHoverBrush"    Color="{StaticResource SidebarBluHoverColor}"/>
+    <SolidColorBrush x:Key="SidebarBluActiveBrush"   Color="{StaticResource SidebarBluActiveColor}"/>
+    <SolidColorBrush x:Key="BackgroundBrush"         Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="SurfaceBrush"            Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="BorderBrush"             Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush"        Color="{StaticResource TextPrimaryColor}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush"      Color="{StaticResource TextSecondaryColor}"/>
+    <SolidColorBrush x:Key="TextTertiaryBrush"       Color="{StaticResource TextTertiaryColor}"/>
+    <SolidColorBrush x:Key="SuccessBrush"            Color="{StaticResource SuccessColor}"/>
+    <SolidColorBrush x:Key="WarningBrush"            Color="{StaticResource WarningColor}"/>
+    <SolidColorBrush x:Key="DangerBrush"             Color="{StaticResource DangerColor}"/>
+
+</ResourceDictionary>

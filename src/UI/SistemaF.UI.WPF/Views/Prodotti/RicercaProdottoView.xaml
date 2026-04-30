@@ -1,0 +1,446 @@
+<UserControl x:Class="SistemaF.UI.WPF.Views.Prodotti.RicercaProdottoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:SistemaF.UI.WPF.Converters"
+             Background="{StaticResource BackgroundBrush}">
+
+    <UserControl.Resources>
+        <conv:BoolToVisibilityConverter         x:Key="BoolToVis"/>
+        <conv:InverseBoolToVisibilityConverter  x:Key="InvBoolToVis"/>
+        <conv:NullToVisibilityConverter         x:Key="NullToVis"/>
+        <conv:GiacenzaToColorConverter          x:Key="GiacenzaToColor"/>
+        <conv:GiacenzaToIconConverter           x:Key="GiacenzaToIcon"/>
+        <conv:ClasseToColorConverter            x:Key="ClasseToColor"/>
+        <conv:PrezzoConverter                   x:Key="Prezzo"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="340" MinWidth="280"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             COLONNA SINISTRA — barra di ricerca + griglia risultati
+        ══════════════════════════════════════════════════════════════════ -->
+        <Grid Grid.Column="0" Margin="24,20,12,24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Barra di ricerca -->
+            <Border Grid.Row="0" Style="{StaticResource CardStyle}" Padding="16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Campo testo -->
+                    <Grid Grid.Column="0">
+                        <TextBox x:Name="SearchBox"
+                                 Style="{StaticResource SearchBoxStyle}"
+                                 Text="{Binding TermineRicerca, UpdateSourceTrigger=PropertyChanged}"
+                                 FontSize="15"
+                                 Padding="44,11,12,11">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding CercaCommand}"/>
+                                <KeyBinding Key="Escape"
+                                            Command="{Binding AzzeraCommand}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <!-- Icona lente -->
+                        <TextBlock Text="🔍" FontSize="16"
+                                   VerticalAlignment="Center"
+                                   Margin="14,0,0,0"
+                                   IsHitTestVisible="False"/>
+                        <!-- Placeholder text -->
+                        <TextBlock Text="Codice, EAN, descrizione, ATC…"
+                                   Foreground="{StaticResource TextTertiaryBrush}"
+                                   FontSize="14"
+                                   VerticalAlignment="Center"
+                                   Margin="44,0,0,0"
+                                   IsHitTestVisible="False"
+                                   Visibility="{Binding TermineRicerca,
+                                       Converter={StaticResource InvBoolToVis},
+                                       ConverterParameter=empty}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TermineRicerca}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Bottone Cerca -->
+                    <Button Grid.Column="1"
+                            Content="Cerca"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding CercaCommand}"
+                            Margin="8,0,0,0"
+                            Width="80"/>
+
+                    <!-- Bottone Azzera -->
+                    <Button Grid.Column="2"
+                            Content="✕"
+                            Style="{StaticResource GhostButtonStyle}"
+                            Command="{Binding AzzeraCommand}"
+                            Margin="6,0,0,0"
+                            Width="36"
+                            Visibility="{Binding HasTermine,
+                                Converter={StaticResource BoolToVis}}"/>
+                </Grid>
+            </Border>
+
+            <!-- Barra stato / tipo ricerca -->
+            <Grid Grid.Row="1" Margin="0,8,0,0">
+                <!-- Loading bar -->
+                <ProgressBar Style="{StaticResource LoadingBarStyle}"
+                             Visibility="{Binding IsCaricamento,
+                                 Converter={StaticResource BoolToVis}}"
+                             Height="3"/>
+
+                <Grid Visibility="{Binding IsCaricamento,
+                          Converter={StaticResource InvBoolToVis}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding MessaggioStato}"
+                               Style="{StaticResource CaptionStyle}"
+                               Margin="4,0"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding TipoRicercaRilevata}"
+                               Style="{StaticResource CaptionStyle}"
+                               Foreground="{StaticResource FarmaciaGreenBrush}"
+                               Visibility="{Binding TipoRicercaRilevata,
+                                   Converter={StaticResource NullToVis}}"/>
+                </Grid>
+            </Grid>
+
+            <!-- Griglia risultati -->
+            <Border Grid.Row="2" Margin="0,8,0,0"
+                    Style="{StaticResource CardStyle}" Padding="0">
+
+                <!-- Stato vuoto -->
+                <TextBlock Text="Digita per cercare prodotti"
+                           Style="{StaticResource CaptionStyle}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="0,60"
+                           Opacity="0.5">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource CaptionStyle}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasRisultati}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <DataGrid Style="{StaticResource FarmaciaGridStyle}"
+                          ItemsSource="{Binding Risultati}"
+                          SelectedItem="{Binding ProdottoSelezionato}"
+                          Visibility="{Binding HasRisultati,
+                              Converter={StaticResource BoolToVis}}">
+
+                    <DataGrid.Columns>
+
+                        <!-- Disponibilità (semaforo) -->
+                        <DataGridTemplateColumn Header="" Width="36" CanUserResize="False">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Text="{Binding GiacenzaTotale,
+                                            Converter={StaticResource GiacenzaToIcon}}"
+                                        Foreground="{Binding GiacenzaTotale,
+                                            Converter={StaticResource GiacenzaToColor}}"
+                                        FontSize="14"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- Codice -->
+                        <DataGridTextColumn Header="CODICE"
+                                            Binding="{Binding CodiceFarmaco}"
+                                            Width="100"
+                                            FontFamily="Consolas"
+                                            FontSize="12"/>
+
+                        <!-- Descrizione -->
+                        <DataGridTextColumn Header="DESCRIZIONE"
+                                            Binding="{Binding Descrizione}"
+                                            Width="*"/>
+
+                        <!-- Classe SSN -->
+                        <DataGridTemplateColumn Header="CLASSE" Width="62">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="4" Padding="6,2" HorizontalAlignment="Left"
+                                            Background="{Binding Classe,
+                                                Converter={StaticResource ClasseToColor}}">
+                                        <TextBlock Text="{Binding Classe}"
+                                                   Foreground="White"
+                                                   FontSize="11"
+                                                   FontWeight="SemiBold"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- Prezzo -->
+                        <DataGridTextColumn Header="PREZZO"
+                                            Binding="{Binding PrezzoVendita,
+                                                Converter={StaticResource Prezzo}}"
+                                            Width="88">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Right"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Giacenza esposizione -->
+                        <DataGridTextColumn Header="ESPOS."
+                                            Binding="{Binding GiacenzaEsposizione}"
+                                            Width="70">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Giacenza magazzino -->
+                        <DataGridTextColumn Header="MAG."
+                                            Binding="{Binding GiacenzaMagazzino}"
+                                            Width="60">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             COLONNA DESTRA — pannello dettaglio prodotto selezionato
+        ══════════════════════════════════════════════════════════════════ -->
+        <Grid Grid.Column="1" Margin="12,20,24,24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Stato vuoto: nessuna selezione -->
+            <Border Style="{StaticResource CardStyle}"
+                    Visibility="{Binding HasSelezione,
+                        Converter={StaticResource InvBoolToVis}}">
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="💊" FontSize="48"
+                               HorizontalAlignment="Center" Opacity="0.2"/>
+                    <TextBlock Text="Seleziona un prodotto"
+                               Style="{StaticResource CaptionStyle}"
+                               HorizontalAlignment="Center"
+                               Margin="0,12,0,0" Opacity="0.4"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Pannello dettaglio -->
+            <Border Style="{StaticResource CardStyle}"
+                    DataContext="{Binding ProdottoSelezionato}"
+                    Visibility="{Binding DataContext.HasSelezione,
+                        RelativeSource={RelativeSource AncestorType=UserControl},
+                        Converter={StaticResource BoolToVis}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+
+                        <!-- Testata prodotto -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="{Binding Descrizione}"
+                                       Style="{StaticResource TitleMediumStyle}"
+                                       TextWrapping="Wrap"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <TextBlock Text="{Binding CodiceFarmaco}"
+                                           FontFamily="Consolas" FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                                <TextBlock Text=" · " Foreground="{StaticResource TextTertiaryBrush}" FontSize="13"/>
+                                <TextBlock Text="{Binding CategoriaRicetta}"
+                                           FontSize="12"
+                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Separator Style="{StaticResource SectionDividerStyle}"/>
+
+                        <!-- Giacenze -->
+                        <TextBlock Text="GIACENZE"
+                                   Style="{StaticResource LabelStyle}"
+                                   Margin="0,0,0,10"/>
+
+                        <!-- Esposizione -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Esposizione"
+                                           Style="{StaticResource BodyStyle}"/>
+                                <TextBlock Text="Scorta min/max"
+                                           Style="{StaticResource CaptionStyle}"
+                                           Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                <TextBlock
+                                    Text="{Binding GiacenzaEsposizione}"
+                                    FontSize="22" FontWeight="Bold"
+                                    Foreground="{Binding GiacenzaEsposizione,
+                                        Converter={StaticResource GiacenzaToColor}}"
+                                    HorizontalAlignment="Right"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Magazzino -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Magazzino"
+                                       Style="{StaticResource BodyStyle}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding GiacenzaMagazzino}"
+                                       FontSize="22" FontWeight="Bold"
+                                       HorizontalAlignment="Right"
+                                       Foreground="{Binding GiacenzaMagazzino,
+                                           Converter={StaticResource GiacenzaToColor}}"/>
+                        </Grid>
+
+                        <Separator Style="{StaticResource SectionDividerStyle}"/>
+
+                        <!-- Prezzi -->
+                        <TextBlock Text="PREZZI"
+                                   Style="{StaticResource LabelStyle}"
+                                   Margin="0,0,0,10"/>
+
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Prezzo al pubblico"
+                                       Style="{StaticResource BodyStyle}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding PrezzoVendita,
+                                           Converter={StaticResource Prezzo}}"
+                                       FontSize="16" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="IVA"
+                                       Style="{StaticResource CaptionStyle}"/>
+                            <TextBlock Grid.Column="1"
+                                       Style="{StaticResource CaptionStyle}">
+                                <TextBlock.Text>
+                                    <Binding Path="AliquotaIVA" StringFormat="{}{0}%"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+
+                        <Separator Style="{StaticResource SectionDividerStyle}"/>
+
+                        <!-- Codici aggiuntivi -->
+                        <TextBlock Text="CODICI"
+                                   Style="{StaticResource LabelStyle}"
+                                   Margin="0,0,0,10"/>
+
+                        <Grid Margin="0,0,0,4"
+                              Visibility="{Binding CodiceEAN,
+                                  Converter={StaticResource NullToVis}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="EAN" Style="{StaticResource CaptionStyle}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding CodiceEAN}"
+                                       FontFamily="Consolas" FontSize="12"
+                                       Foreground="{StaticResource TextSecondaryBrush}"/>
+                        </Grid>
+
+                        <Grid Visibility="{Binding CodiceATC,
+                                  Converter={StaticResource NullToVis}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ATC" Style="{StaticResource CaptionStyle}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding CodiceATC}"
+                                       FontFamily="Consolas" FontSize="12"
+                                       Foreground="{StaticResource TextSecondaryBrush}"/>
+                        </Grid>
+
+                        <Separator Style="{StaticResource SectionDividerStyle}"/>
+
+                        <!-- Flag prodotto -->
+                        <TextBlock Text="CARATTERISTICHE"
+                                   Style="{StaticResource LabelStyle}"
+                                   Margin="0,0,0,10"/>
+
+                        <WrapPanel Margin="0,0,0,4">
+                            <Border Style="{StaticResource BadgeOrangeStyle}"
+                                    Margin="0,0,6,6"
+                                    Visibility="{Binding IsStupefacente,
+                                        Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="Stupefacente" FontSize="11"
+                                           Foreground="#92400E"/>
+                            </Border>
+                            <Border Style="{StaticResource BadgeOrangeStyle}"
+                                    Margin="0,0,6,6"
+                                    Visibility="{Binding IsVeterinario,
+                                        Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="Veterinario" FontSize="11"
+                                           Foreground="#92400E"/>
+                            </Border>
+                            <Border Style="{StaticResource BadgeRedStyle}"
+                                    Margin="0,0,6,6"
+                                    Visibility="{Binding IsCongelato,
+                                        Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="❄ Congelato" FontSize="11"
+                                           Foreground="#991B1B"/>
+                            </Border>
+                        </WrapPanel>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

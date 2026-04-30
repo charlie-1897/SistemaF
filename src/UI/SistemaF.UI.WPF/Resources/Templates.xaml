@@ -1,0 +1,20 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Template vuoto / placeholder ────────────────────────────────────── -->
+    <DataTemplate x:Key="EmptyStateTemplate">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Margin="0,40">
+            <TextBlock Text="🔍" FontSize="48" HorizontalAlignment="Center"
+                       Opacity="0.3"/>
+            <TextBlock Text="Nessun prodotto trovato"
+                       Style="{StaticResource TitleMediumStyle}"
+                       HorizontalAlignment="Center" Margin="0,12,0,4"
+                       Opacity="0.5"/>
+            <TextBlock Text="Digita un codice, una descrizione o un EAN"
+                       Style="{StaticResource CaptionStyle}"
+                       HorizontalAlignment="Center" Opacity="0.4"/>
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

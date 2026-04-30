@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SistemaF.Domain.Entities.Ordine;
 using SistemaF.Domain.Interfaces;
+using SistemaF.Domain.Entities.Ricerca;
 using SistemaF.Infrastructure.Persistence;
 using SistemaF.Infrastructure.Repositories;
+using SistemaF.Infrastructure.Services;
 using SistemaF.Integration.Federfarma;
 using SistemaF.Integration.Federfarma.Dpc.Parsers;
 using SistemaF.Integration.Federfarma.Shared;
@@ -56,6 +58,9 @@ public static class InfrastructureDependencyInjection
         services.AddScoped<IOfferteService,          StubOfferteService>();
         services.AddScoped<IIndiciVenditaService,    StubIndiciVenditaService>();
         services.AddScoped<IArchivioPropostaService, StubArchivioPropostaService>();
+
+        // Ricerca prodotto (Sessione 3 MVP)
+        services.AddScoped<IRicercaProdottoService, RicercaProdottoService>();
 
         // Federfarma
         services.AddFederfarma(configuration);

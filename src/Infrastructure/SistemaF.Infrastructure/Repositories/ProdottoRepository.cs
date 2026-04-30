@@ -97,3 +97,7 @@ internal sealed class ProdottoRepository(SistemaFDbContext db) : IProdottoReposi
     public Task<bool> EsisteCodiceEANAsync(CodiceEAN ean, CancellationToken ct)
         => db.Prodotti.AnyAsync(p => p.CodiceEAN != null && p.CodiceEAN.Valore == ean.Valore, ct);
 }
+
+// Aggiunto nella Sessione 3 MVP per i test di integrazione
+public async Task<IReadOnlyList<Prodotto>> GetAllAsync(CancellationToken ct = default)
+    => await _db.Prodotti.AsNoTracking().OrderBy(p => p.Descrizione).ToListAsync(ct);

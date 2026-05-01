@@ -134,7 +134,6 @@
 
                 <!-- Stato vuoto -->
                 <TextBlock Text="Digita per cercare prodotti"
-                           Style="{StaticResource CaptionStyle}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Margin="0,60"

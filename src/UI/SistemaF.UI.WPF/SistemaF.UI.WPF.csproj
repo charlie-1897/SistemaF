@@ -41,15 +41,5 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- File XAML delle viste -->
-    <Page Include="App.xaml" />
-    <Page Include="Resources\Colors.xaml" />
-    <Page Include="Resources\Styles.xaml" />
-    <Page Include="Resources\Templates.xaml" />
-    <Page Include="Views\Shell\MainWindow.xaml" />
-    <Page Include="Views\Prodotti\RicercaProdottoView.xaml" />
-    <Page Include="Views\PlaceholderView.xaml" />
-  </ItemGroup>
 
 </Project>

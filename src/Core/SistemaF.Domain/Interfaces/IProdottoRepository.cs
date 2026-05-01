@@ -54,5 +54,5 @@ public interface IProdottoRepository : IRepository<Prodotto>
 
     Task<bool> EsisteCodiceFarmacoAsync(CodiceProdotto codice, CancellationToken ct = default);
     Task<bool> EsisteCodiceEANAsync(CodiceEAN ean, CancellationToken ct = default);
-}
     Task<IReadOnlyList<Prodotto>> GetAllAsync(CancellationToken ct = default);
+}

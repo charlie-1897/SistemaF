@@ -28,7 +28,6 @@ namespace SistemaF.Domain.Entities.Ordine;
 // ═══════════════════════════════════════════════════════════════════════════════
 
 using SistemaF.Domain.Interfaces;
-using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Orchestratore della pipeline di emissione ordine.
@@ -42,8 +41,7 @@ public sealed class EmissioneOrdineService(
     IListiniFornitorService  listini,
     IScontiCondizioniService scontiCondizioni,
     IOfferteService          offerte,
-    IIndiciVenditaService    indiciVendita,
-    ILogger<EmissioneOrdineService> logger)
+    IIndiciVenditaService    indiciVendita)
 {
     // ─────────────────────────────────────────────────────────────────────────
     //  ENTRY POINT — esegue l'intera pipeline
@@ -109,13 +107,11 @@ public sealed class EmissioneOrdineService(
         }
         catch (OperationCanceledException)
         {
-            logger.LogWarning("Pipeline emissione annullata per proposta {Id}", proposta.Id);
             proposta.Interrompi();
             throw;
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Errore pipeline emissione proposta {Id}", proposta.Id);
             throw;
         }
     }
@@ -129,7 +125,6 @@ public sealed class EmissioneOrdineService(
         // Archivio (ProdBase/Esposizione) — migrazione RecuperaProdotti_ProdBase
         if (p.IsEmissioneDaArchivio)
         {
-            logger.LogDebug("EmissioneOrdine: raccolta da archivio");
             var filtri = new FiltriProdottoArchivio(
                 IsTrattati:          true,
                 IsOrdineLiberoDitta: p.IsOrdineLiberoDitta,
@@ -164,8 +159,6 @@ public sealed class EmissioneOrdineService(
 
         if (p.IsEmissioneSospesi || p.IsEmissionePrenotati || p.IsEmissioneNecessita)
         {
-            logger.LogDebug("EmissioneOrdine: le fonti Necessita/Prenotati/Sospesi " +
-                "devono essere precaricate tramite AggiungiProdottoManuale prima della pipeline.");
         }
     }
 
@@ -274,7 +267,6 @@ public sealed class EmissioneOrdineService(
 
             done++;
             if (done % 50 == 0)
-                logger.LogDebug("AssegnaFornitoriOttimali: {Done}/{Total}", done, total);
         }
     }
 
@@ -417,7 +409,6 @@ public sealed class EmissioneOrdineService(
             .ToList();
 
         p.RimuoviRighe(daRimuovere);
-        logger.LogDebug("RimuoviRigheSenzaFornitore: rimossi {N} prodotti", daRimuovere.Count);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -466,9 +457,7 @@ public sealed class EmissioneOrdineService(
     private static void Notifica(IProgress<AvanzamentoPipeline>? p, string msg, int perc)
         => p?.Report(new AvanzamentoPipeline(msg, perc));
 
-    // Evita CS8618 sul campo logger assegnato via primary constructor
-    private static readonly ILogger<EmissioneOrdineService> logger =
-        Microsoft.Extensions.Logging.Abstractions.NullLogger<EmissioneOrdineService>.Instance;
+
 }
 
 /// <summary>Progresso della pipeline di emissione (per la UI).</summary>

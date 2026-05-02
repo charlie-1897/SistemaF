@@ -6,8 +6,4 @@
     <RootNamespace>SistemaF.Domain</RootNamespace>
     <AssemblyName>SistemaF.Domain</AssemblyName>
   </PropertyGroup>
-  <!-- Solo Logging.Abstractions: interfacce senza implementazione (0 dipendenze runtime) -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.*" />
-  </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 using SistemaF.Domain.Entities.Ordine;
 using SistemaF.Domain.Entities.Prodotto;
+using SistemaF.Domain.ValueObjects;
 
 namespace SistemaF.Domain.Interfaces;
 

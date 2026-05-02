@@ -1,4 +1,5 @@
 using SistemaF.Domain.Entities.Prodotto;
+using SistemaF.Domain.ValueObjects;
 
 namespace SistemaF.Domain.Entities.Ordine;
 

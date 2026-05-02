@@ -266,7 +266,6 @@ public sealed class EmissioneOrdineService(
             ScegliFornitoreMigliore(riga, p);
 
             done++;
-            if (done % 50 == 0)
         }
     }
 

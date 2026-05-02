@@ -164,13 +164,12 @@ public static class DataSeeder
         p.ClearDomainEvents();
         return p;
     }
-}
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SEED ANAGRAFICA (aggiunto nella Sessione 2 MVP)
-// ─────────────────────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────
+    // SEED ANAGRAFICA
+    // ─────────────────────────────────────────────────────────────────────────
 
-public static async Task SeedAnagraficaAsync(
+    public static async Task SeedAnagraficaAsync(
     SistemaFDbContext db, CancellationToken ct = default)
 {
     // Idempotente: non fa nulla se già esistono dati
@@ -251,4 +250,5 @@ public static async Task SeedAnagraficaAsync(
     }
 
     await db.SaveChangesAsync(ct);
+}
 }

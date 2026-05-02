@@ -6,3 +6,4 @@ global using SistemaF.Domain.Interfaces;
 global using SistemaF.Domain.ValueObjects;
 global using SistemaF.Domain.Entities.Anagrafica;
 global using SistemaF.Domain.Entities.Ricerca;
+global using Microsoft.Extensions.Logging;

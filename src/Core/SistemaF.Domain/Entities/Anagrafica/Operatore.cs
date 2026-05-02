@@ -21,7 +21,7 @@ namespace SistemaF.Domain.Entities.Anagrafica;
 //  In C# usiamo un insieme di enum tipizzati più leggibili.
 // ═══════════════════════════════════════════════════════════════════════════════
 
-public sealed class Operatore : Entity
+public sealed class Operatore : AggregateRoot
 {
     // ── Identità ──────────────────────────────────────────────────────────────
 
@@ -110,7 +110,7 @@ public sealed class Operatore : Entity
 //  Nel VB6 i dati della farmacia erano nell'INI e in alcune tabelle DB.
 // ═══════════════════════════════════════════════════════════════════════════════
 
-public sealed class Farmacia : Entity
+public sealed class Farmacia : AggregateRoot
 {
     public string   Nome              { get; private set; } = string.Empty;
     public string?  RagioneSociale    { get; private set; }
@@ -178,7 +178,7 @@ public sealed class Farmacia : Entity
 //  nel database WinSF.
 // ═══════════════════════════════════════════════════════════════════════════════
 
-public sealed class ConfigurazioneEmissione : Entity
+public sealed class ConfigurazioneEmissione : AggregateRoot
 {
     // ── Identità ──────────────────────────────────────────────────────────────
 

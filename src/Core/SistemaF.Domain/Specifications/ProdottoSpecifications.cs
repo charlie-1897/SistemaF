@@ -96,7 +96,7 @@ public sealed class ProdottoRicercaTipoSpec : Specification<Prodotto>
         _valore = (valore ?? string.Empty).Trim().ToUpperInvariant();
     }
 
-    public override Expression<Func<Prodotto, bool>> ToExpression() => _tipo.Id switch
+    public override Expression<Func<Prodotto, bool>> ToExpression() => (int)_tipo switch
     {
         1  => p => p.CodiceFarmaco.Valore.StartsWith(_valore),               // Ministeriale
         3  => p => p.Sostanza    != null && p.Sostanza.Contains(_valore),    // Sostanza

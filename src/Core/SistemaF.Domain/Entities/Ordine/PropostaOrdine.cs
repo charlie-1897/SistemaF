@@ -96,7 +96,7 @@ public sealed class PropostaOrdine : AggregateRoot
         };
 
         p.IsOrdineGenericoDitta = nomeEmissione == "Ordine generico a Ditta";
-        p.Raise(new PropostaOrdineCreata(p.Id, operatoreId, configurazioneId, nomeEmissione));
+        p.Raise(new PropostaOrdineCreata(p.Id, operatoreId, configurazioneId, nomeEmissione ?? string.Empty));
         return p;
     }
 
@@ -253,9 +253,9 @@ public sealed class PropostaOrdine : AggregateRoot
 
     public void Annulla()
     {
-        Guard.AgainstStates(Stato,
-            [StatoProposta.Emessa, StatoProposta.Annullata],
-            "Annulla", "Impossibile annullare una proposta già emessa o già annullata.");
+        if (Stato is StatoProposta.Emessa or StatoProposta.Annullata)
+            throw new BusinessRuleViolationException("AnnullaProposta",
+                "Impossibile annullare una proposta già emessa o già annullata.");
         Stato = StatoProposta.Annullata;
         Raise(new PropostaOrdineAnnullata(Id, OperatoreId));
     }

@@ -151,7 +151,10 @@ public sealed class Ordine : SoftDeletableAggregateRoot
         };
 
         // Indice fornitore 1-based nella lista della proposta
-        var indice = proposta.Fornitori.IndexOf(fornitore) + 1;
+        var indice = 0;
+        for (var fi = 0; fi < proposta.Fornitori.Count; fi++)
+            if (proposta.Fornitori[fi].FornitoreId == fornitore.FornitoreId) { indice = fi + 1; break; }
+        if (indice == 0) indice = 1;
 
         foreach (var riga in proposta.RigheDaEmettere.Where(r => r.IsFornitoreAbilitato(indice)
                                                                && r.QuantitaPerFornitore(indice) > 0))

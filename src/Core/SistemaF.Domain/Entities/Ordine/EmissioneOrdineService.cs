@@ -110,7 +110,7 @@ public sealed class EmissioneOrdineService(
             proposta.Interrompi();
             throw;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             throw;
         }
@@ -336,7 +336,9 @@ public sealed class EmissioneOrdineService(
         var offerteLista = await offerte.GetOfferteAsync(riga.ProdottoId, quantita * 2, fornitoriIds, ct);
         foreach (var off in offerteLista)
         {
-            var idx = p.Fornitori.FindIndex(f => f.FornitoreId == off.FornitoreId);
+            var idx = -1;
+            for (var fi2 = 0; fi2 < p.Fornitori.Count; fi2++)
+                if (p.Fornitori[fi2].FornitoreId == off.FornitoreId) { idx = fi2; break; }
             if (idx < 0) continue;
             var i = idx + 1;
 
@@ -360,8 +362,9 @@ public sealed class EmissioneOrdineService(
         // ── Step 6: Fornitore preferenziale ──────────────────────────────────
         if (riga.FornitorePreferenzialeId.HasValue && riga.QuantitaMancante == 0)
         {
-            var idxPref = p.Fornitori.FindIndex(
-                f => f.FornitoreId == riga.FornitorePreferenzialeId.Value);
+            var idxPref = -1;
+            for (var fi3 = 0; fi3 < p.Fornitori.Count; fi3++)
+                if (p.Fornitori[fi3].FornitoreId == riga.FornitorePreferenzialeId.Value) { idxPref = fi3; break; }
             if (idxPref >= 0)
             {
                 riga.AbilitaSoloFornitore(idxPref + 1);

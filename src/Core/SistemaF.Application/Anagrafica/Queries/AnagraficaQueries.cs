@@ -1,3 +1,9 @@
+using FluentValidation;
+using MediatR;
+using SistemaF.Domain.Entities.Anagrafica;
+using SistemaF.Domain.Entities.Ordine;
+using SistemaF.Domain.Common;
+
 namespace SistemaF.Application.Anagrafica.Queries;
 
 // ═══════════════════════════════════════════════════════════════════════════════

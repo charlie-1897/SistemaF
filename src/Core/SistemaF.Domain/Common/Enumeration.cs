@@ -84,28 +84,6 @@ public abstract class Enumeration : IEquatable<Enumeration>, IComparable<Enumera
 /// Tipo di ricerca prodotto.
 /// Migrazione delle costanti CSFxxx in CSFDichiarazioni.bas.
 /// </summary>
-public sealed class TipoRicercaProdotto : Enumeration
-{
-    public static readonly TipoRicercaProdotto Ministeriale      = new(1,  "Codice ministeriale");
-    public static readonly TipoRicercaProdotto Patologia         = new(2,  "Patologia");
-    public static readonly TipoRicercaProdotto Sostanza          = new(3,  "Sostanza attiva");
-    public static readonly TipoRicercaProdotto Descrizione       = new(4,  "Descrizione");
-    public static readonly TipoRicercaProdotto Gruppo            = new(5,  "Gruppo");
-    public static readonly TipoRicercaProdotto Ditta             = new(6,  "Ditta");
-    public static readonly TipoRicercaProdotto PluriPrescrizione = new(7,  "Pluriprescrizione");
-    public static readonly TipoRicercaProdotto ATC               = new(8,  "Codice ATC");
-    public static readonly TipoRicercaProdotto CategoriaRicetta  = new(9,  "Categoria ricetta");
-    public static readonly TipoRicercaProdotto Segnalazione      = new(11, "Segnalazione");
-    public static readonly TipoRicercaProdotto CodiceCSFData     = new(12, "Codice CSF + data");
-    public static readonly TipoRicercaProdotto SettoreInventario = new(13, "Settore inventario");
-    public static readonly TipoRicercaProdotto Veterinario       = new(14, "Uso veterinario");
-    public static readonly TipoRicercaProdotto EAN               = new(15, "Codice EAN");
-    public static readonly TipoRicercaProdotto Classe            = new(16, "Classe rimborsabilità");
-    public static readonly TipoRicercaProdotto PrezzoRiferimento = new(22, "Prezzo di riferimento");
-    public static readonly TipoRicercaProdotto FormaBiotica      = new(24, "Forma farmaceutica");
-
-    private TipoRicercaProdotto(int id, string nome) : base(id, nome) { }
-}
 
 /// <summary>
 /// Classe di rimborsabilità SSN.

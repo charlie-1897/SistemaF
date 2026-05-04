@@ -4,13 +4,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>SistemaF.Integration</RootNamespace>
+    <AssemblyName>SistemaF.Integration</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\SistemaF.Domain\SistemaF.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <!-- Client SOAP per Federfarma — sostituisce CSFWSENET.dll VB6 -->
-    <PackageReference Include="System.ServiceModel.Http" Version="6.*" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.*" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.*" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 using FluentAssertions;
 using SistemaF.Domain.Entities.Ordine;
+using Ordine = SistemaF.Domain.Entities.Ordine.Ordine;
 using SistemaF.Domain.Entities.Prodotto;
 using Xunit;
 

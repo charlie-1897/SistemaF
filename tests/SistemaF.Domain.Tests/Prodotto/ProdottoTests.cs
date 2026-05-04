@@ -1,5 +1,6 @@
 using FluentAssertions;
 using SistemaF.Domain.Entities.Prodotto;
+using Prodotto = SistemaF.Domain.Entities.Prodotto.Prodotto;
 using SistemaF.Domain.ValueObjects;
 using Xunit;
 

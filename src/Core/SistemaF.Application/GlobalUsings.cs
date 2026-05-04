@@ -1,0 +1,11 @@
+global using SistemaF.Domain.Common;
+global using SistemaF.Domain.Entities.Anagrafica;
+global using SistemaF.Domain.Entities.Ordine;
+global using SistemaF.Domain.Entities.Prodotto;
+global using SistemaF.Domain.Entities.Ricerca;
+global using SistemaF.Domain.Interfaces;
+global using SistemaF.Domain.ValueObjects;
+global using SistemaF.Integration.Federfarma;
+global using SistemaF.Integration.Federfarma.Dpc.Models;
+global using SistemaF.Integration.Federfarma.Shared;
+global using SistemaF.Integration.Federfarma.WebCare.Models;

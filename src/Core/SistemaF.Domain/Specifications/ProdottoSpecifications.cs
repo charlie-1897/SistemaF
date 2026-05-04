@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using SistemaF.Domain.Entities.Prodotto;
+using SistemaF.Domain.Entities.Ricerca;
 using SistemaF.Domain.ValueObjects;
 
 namespace SistemaF.Domain.Specifications;

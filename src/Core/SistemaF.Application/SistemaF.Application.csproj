@@ -11,9 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.*" />
-    <PackageReference Include="FluentValidation" Version="11.*" />
-    <PackageReference Include="FluentValidation.DependencyInjection" Version="11.*" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.*" />
+    <PackageReference Include="FluentValidation" Version="11.*" />    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.*" />
   </ItemGroup>
 </Project>

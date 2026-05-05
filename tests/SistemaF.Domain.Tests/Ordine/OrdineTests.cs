@@ -1,3 +1,4 @@
+using Ordine = SistemaF.Domain.Entities.Ordine.Ordine;
 using FluentAssertions;
 using SistemaF.Domain.Common;
 using SistemaF.Domain.Entities.Ordine;

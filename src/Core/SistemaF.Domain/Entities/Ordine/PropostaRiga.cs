@@ -316,4 +316,17 @@ public sealed class PropostaRiga : Entity
 
 
 
+
+    /// <summary>Calcola il costo totale delle righe nette (quantità - omaggio) × costo.</summary>
+    public decimal CalcolaCostoTotale()
+    {
+        var totale = 0m;
+        for (var i = 0; i < MaxFornitori; i++)
+        {
+            if (!_fornitoreAbilitato[i]) continue;
+            var qtaNetta = _quantitaFornitore[i] - _quantitaOmaggio[i];
+            totale += qtaNetta * _costoFornitore[i].Valore;
+        }
+        return totale;
+    }
 }

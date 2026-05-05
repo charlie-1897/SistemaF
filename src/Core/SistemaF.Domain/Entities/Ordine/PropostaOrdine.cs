@@ -234,7 +234,7 @@ public sealed class PropostaOrdine : AggregateRoot
 
     // ── Transizioni di stato ───────────────────────────────────────────────────
 
-    internal void MarcaCompletata(RiepilogoElaborazione riepilogo)
+    public void MarcaCompletata(RiepilogoElaborazione riepilogo)
     {
         Guard.AgainstFalse(Stato == StatoProposta.Bozza, "MarcaCompletata",
             "Solo una proposta in bozza può essere completata.");
@@ -243,7 +243,7 @@ public sealed class PropostaOrdine : AggregateRoot
         Raise(new PropostaOrdineCompletata(Id, OperatoreId, riepilogo));
     }
 
-    internal void MarcaEmessa(Guid ordineId)
+    public void MarcaEmessa(Guid ordineId)
     {
         Guard.AgainstFalse(Stato == StatoProposta.Completata, "MarcaEmessa",
             "Solo una proposta completata può essere emessa.");

@@ -325,7 +325,7 @@ public sealed class PropostaRiga : Entity
         {
             if (!_fornitoreAbilitato[i]) continue;
             var qtaNetta = _quantitaFornitore[i] - _quantitaOmaggio[i];
-            totale += qtaNetta * _costoFornitore[i].Valore;
+            totale += qtaNetta * _costoFornitore[i].Imponibile;
         }
         return totale;
     }

@@ -1,6 +1,6 @@
 using Prodotto = SistemaF.Domain.Entities.Prodotto.Prodotto;
-using FluentAssertions;
 using SistemaF.Domain.Entities.Prodotto;
+using FluentAssertions;
 using SistemaF.Domain.ValueObjects;
 using Xunit;
 
@@ -15,14 +15,14 @@ namespace SistemaF.Domain.Tests.Prodotto;
 
 internal static class ProdottoFactory
 {
-    public static Prodotto Tachipirina() => Prodotto.Crea(
+    public static ProdottoAggregate Tachipirina() => ProdottoAggregate.Crea(
         CodiceProdotto.Da("012345678"),
         "TACHIPIRINA 1000MG 20 CPR",
         ClasseFarmaco.C,
         CategoriaRicetta.NessunObbligo,
         Prezzo.Di(4.50m));
 
-    public static Prodotto Amoxicillina() => Prodotto.Crea(
+    public static ProdottoAggregate Amoxicillina() => ProdottoAggregate.Crea(
         CodiceProdotto.Da("023456789"),
         "AMOXICILLINA 500MG 12 CPR",
         ClasseFarmaco.A,
@@ -132,7 +132,7 @@ public sealed class ProdottoCreazioneTests
 
     [Fact]
     public void Descrizione_vuota_lancia_eccezione()
-        => ((Action)(() => Prodotto.Crea(
+        => ((Action)(() => ProdottoAggregate.Crea(
                 CodiceProdotto.Da("012345678"), "",
                 ClasseFarmaco.C, CategoriaRicetta.NessunObbligo,
                 Prezzo.Di(4m)))).Should().Throw<DomainException>();

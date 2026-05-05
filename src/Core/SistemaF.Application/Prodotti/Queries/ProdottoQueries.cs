@@ -79,7 +79,7 @@ public sealed class CercaProdottiPerTipoHandler(IProdottoRepository repo)
     public async Task<ProdottiRisultato> Handle(
         CercaProdottiPerTipoQuery q, CancellationToken ct)
     {
-        var tipo = Enumeration.FromIdOrThrow<TipoRicercaProdotto>(q.TipoRicerca);
+        var tipo = (TipoRicercaProdotto)q.TipoRicerca;
         var spec = new ProdottoRicercaTipoSpec(tipo, q.Valore).And(new ProdottiAttiviSpec());
 
         var items  = await repo.CercaAsync(spec, q.Limit, q.Offset, ct);

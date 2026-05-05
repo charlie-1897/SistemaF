@@ -144,7 +144,7 @@ public sealed class EseguiPipelineEmissioneHandler(
             Guard.AgainstFalse(proposta.OperatoreId == cmd.OperatoreId,
                 "EseguiPipeline", "Solo l'operatore che ha creato la proposta può eseguire la pipeline.");
 
-            var riepilogo = await pipeline.EseguiAsync(proposta, cancellationToken: ct);
+            var riepilogo = await pipeline.EseguiAsync(proposta, ct: ct);
 
             propostaRepo.Update(proposta);
             await uow.SaveChangesAsync(ct);

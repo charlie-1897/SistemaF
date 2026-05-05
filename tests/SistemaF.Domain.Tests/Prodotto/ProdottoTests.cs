@@ -26,7 +26,7 @@ internal static class ProdottoFactory
         CodiceProdotto.Da("023456789"),
         "AMOXICILLINA 500MG 12 CPR",
         ClasseFarmaco.A,
-        CategoriaRicetta.RicettaRipetibile,
+        CategoriaRicetta.RRipetibile,
         Prezzo.Di(5.80m));
 }
 
@@ -151,8 +151,8 @@ public sealed class ProdottoPrezziTests
         p.AggiornaPrezzo(Prezzo.Di(5.00m));
 
         p.PrezzoVendita.Importo.Should().Be(5.00m);
-        p.DomainEvents.Should().ContainSingle(e =>
-            e is PrezzoProdottoAggiornato { TipoCosa: TipoCosaRettifica.PrezzoPubblico });
+        p.DomainEvents.OfType<PrezzoProdottoAggiornato>()
+            .Should().ContainSingle(e => e.TipoCosa == TipoCosaRettifica.PrezzoPubblico);
     }
 
     [Fact]

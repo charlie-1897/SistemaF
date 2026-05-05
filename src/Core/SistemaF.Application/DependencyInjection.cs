@@ -1,3 +1,4 @@
+using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +30,18 @@ public static class ApplicationDependencyInjection
         });
 
         // FluentValidation — registra tutti i validator del progetto
-        services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
+        var validatorTypes = assembly.GetTypes()
+            .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition
+                && t.GetInterfaces().Any(i =>
+                    i.IsGenericType &&
+                    i.GetGenericTypeDefinition() == typeof(IValidator<>)));
+        foreach (var vt in validatorTypes)
+        {
+            var iface = vt.GetInterfaces().First(i =>
+                i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IValidator<>));
+            services.AddTransient(iface, vt);
+            services.AddTransient(vt);
+        }
 
         return services;
     }

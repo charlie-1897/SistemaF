@@ -1,4 +1,5 @@
 using FluentAssertions;
+using SistemaF.Domain.Common;
 using SistemaF.Domain.Entities.Anagrafica;
 using SistemaF.Domain.Entities.Ordine;
 using Xunit;

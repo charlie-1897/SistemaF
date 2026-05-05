@@ -143,27 +143,7 @@ public sealed class PropostaRiga : Entity
 
     private PropostaRiga() { }
 
-    /// <summary>Crea una riga di proposta per un prodotto (usata nei test e dalla pipeline).</summary>
     public static PropostaRiga Crea(
-        Guid           propostaId,
-        Guid           prodottoId,
-        CodiceProdotto codiceFarmaco,
-        string         descrizione)
-    {
-        Guard.AgainstEmptyGuid(propostaId,  nameof(propostaId));
-        Guard.AgainstEmptyGuid(prodottoId,  nameof(prodottoId));
-        Guard.AgainstNullOrEmpty(descrizione, nameof(descrizione));
-
-        return new PropostaRiga
-        {
-            PropostaId    = propostaId,
-            ProdottoId    = prodottoId,
-            CodiceFarmaco = codiceFarmaco,
-            Descrizione   = descrizione,
-        };
-    }
-
-    internal static PropostaRiga Crea(
         Guid          propostaId,
         Guid          prodottoId,
         CodiceProdotto codice,
@@ -183,7 +163,7 @@ public sealed class PropostaRiga : Entity
 
     // ── Aggiornamento quantità (usato dalla pipeline) ─────────────────────────
 
-    internal void AggiungiQuantita(FonteAggiunta fonte, int quantita)
+    public void AggiungiQuantita(FonteAggiunta fonte, int quantita)
     {
         Guard.AgainstNonPositive(quantita, nameof(quantita));
         switch (fonte)
@@ -202,13 +182,13 @@ public sealed class PropostaRiga : Entity
 
     // ── Assegnazione fornitori ────────────────────────────────────────────────
 
-    internal void AbilitaFornitore(int indice1Based, bool valore)
+    public void AbilitaFornitore(int indice1Based, bool valore)
     {
         ValidaIndice(indice1Based);
         _fornitoreAbilitato[indice1Based - 1] = valore;
     }
 
-    internal void ImpostaQuantitaFornitore(int indice1Based, int quantita)
+    public void ImpostaQuantitaFornitore(int indice1Based, int quantita)
     {
         ValidaIndice(indice1Based);
         _quantitaFornitore[indice1Based - 1] = Math.Max(0, quantita);
@@ -220,13 +200,13 @@ public sealed class PropostaRiga : Entity
         _quantitaFornitore[indice1Based - 1] = Math.Max(0, _quantitaFornitore[indice1Based - 1] + delta);
     }
 
-    internal void ImpostaOmaggioFornitore(int indice1Based, int quantita)
+    public void ImpostaOmaggioFornitore(int indice1Based, int quantita)
     {
         ValidaIndice(indice1Based);
         _quantitaOmaggio[indice1Based - 1] = Math.Max(0, quantita);
     }
 
-    internal void ImpostaCostoFornitore(int indice1Based, CostoFornitore costo)
+    public void ImpostaCostoFornitore(int indice1Based, CostoFornitore costo)
     {
         ValidaIndice(indice1Based);
         _costoFornitore[indice1Based - 1] = costo;
@@ -241,7 +221,7 @@ public sealed class PropostaRiga : Entity
         }
     }
 
-    internal void AbilitaSoloFornitore(int indice1Based)
+    public void AbilitaSoloFornitore(int indice1Based)
     {
         for (var i = 1; i <= MaxFornitori; i++)
             AbilitaFornitore(i, i == indice1Based);
@@ -270,7 +250,7 @@ public sealed class PropostaRiga : Entity
 
     // ── Prezzi e classificazione ──────────────────────────────────────────────
 
-    internal void ImpostaPrezzi(decimal listino, decimal vendita, decimal farmacia,
+    public void ImpostaPrezzi(decimal listino, decimal vendita, decimal farmacia,
         decimal riferimento, int iva, string classe)
     {
         PrezzoListino     = listino;
@@ -334,81 +314,6 @@ public sealed class PropostaRiga : Entity
             throw new DomainException($"Indice fornitore {i} fuori range [1..{MaxFornitori}].");
     }
 
-    // ── Metodi di modifica (usati dalla pipeline e dai test) ──────────────────
-
-    /// <summary>Aggiunge quantità a una delle fonti (Mancanti, Necessita, Prenotati, Sospesi, Archivio).</summary>
-    public void AggiungiQuantita(FonteAggiunta fonte, int quantita)
-    {
-        Guard.AgainstNonPositive(quantita, nameof(quantita));
-        switch (fonte)
-        {
-            case FonteAggiunta.Mancanti:   QuantitaMancante  += quantita; break;
-            case FonteAggiunta.Necessita:  QuantitaNecessita += quantita; break;
-            case FonteAggiunta.Prenotati:  QuantitaPrenotata += quantita; break;
-            case FonteAggiunta.Sospesi:    QuantitaSospesa   += quantita; break;
-            case FonteAggiunta.Archivio:   QuantitaArchivio  += quantita; break;
-        }
-    }
-
-    /// <summary>Abilita o disabilita un fornitore (indice 1-based).</summary>
-    public void AbilitaFornitore(int indice1Based, bool valore)
-    {
-        Guard.AgainstOutOfRange(indice1Based, 1, MaxFornitori, nameof(indice1Based));
-        _fornitoreAbilitato[indice1Based - 1] = valore;
-    }
-
-    /// <summary>Abilita solo il fornitore specificato, disabilitando tutti gli altri.</summary>
-    public void AbilitaSoloFornitore(int indice1Based)
-    {
-        Guard.AgainstOutOfRange(indice1Based, 1, MaxFornitori, nameof(indice1Based));
-        for (var i = 0; i < MaxFornitori; i++)
-            _fornitoreAbilitato[i] = (i == indice1Based - 1);
-    }
-
-    /// <summary>Imposta la quantità da ordinare per un fornitore (indice 1-based).</summary>
-    public void ImpostaQuantitaFornitore(int indice1Based, int quantita)
-    {
-        Guard.AgainstOutOfRange(indice1Based, 1, MaxFornitori, nameof(indice1Based));
-        _quantitaFornitore[indice1Based - 1] = Math.Max(0, quantita);
-    }
-
-    /// <summary>Imposta la quantità omaggio per un fornitore (indice 1-based).</summary>
-    public void ImpostaOmaggioFornitore(int indice1Based, int omaggio)
-    {
-        Guard.AgainstOutOfRange(indice1Based, 1, MaxFornitori, nameof(indice1Based));
-        _quantitaOmaggio[indice1Based - 1] = Math.Max(0, omaggio);
-    }
-
-    /// <summary>Imposta il costo unitario per un fornitore (indice 1-based).</summary>
-    public void ImpostaCostoFornitore(int indice1Based, CostoFornitore costo)
-    {
-        Guard.AgainstOutOfRange(indice1Based, 1, MaxFornitori, nameof(indice1Based));
-        _costoFornitore[indice1Based - 1] = costo;
-    }
-
-    /// <summary>Imposta i prezzi del prodotto sulla riga (prezzi dal DB prodotto).</summary>
-    public void ImpostaPrezzi(decimal listino, decimal vendita, decimal farmacia,
-        decimal riferimento, int aliquota)
-    {
-        PrezzoListino    = listino;
-        PrezzoVendita    = vendita;
-        PrezzoFarmacia   = farmacia;
-        PrezzoRiferimento = riferimento;
-        AliquotaIVA      = aliquota;
-    }
-
-    /// <summary>Calcola il costo totale (quantità nette × costo fornitore principale).</summary>
-    public decimal CalcolaCostoTotale()
-    {
-        var totale = 0m;
-        for (var i = 0; i < MaxFornitori; i++)
-        {
-            if (!_fornitoreAbilitato[i]) continue;
-            var qtaNetta = _quantitaFornitore[i] - _quantitaOmaggio[i];
-            totale += qtaNetta * _costoFornitore[i].Valore;
-        }
-        return totale;
-    }
 
 
 }

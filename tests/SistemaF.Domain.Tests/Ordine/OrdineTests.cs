@@ -1,7 +1,8 @@
-using Ordine = SistemaF.Domain.Entities.Ordine.Ordine;
-using SistemaF.Domain.Entities.Ordine;
 using FluentAssertions;
+using SistemaF.Domain.Common;
+using SistemaF.Domain.Entities.Ordine;
 using SistemaF.Domain.Entities.Prodotto;
+using SistemaF.Domain.ValueObjects;
 using Xunit;
 
 namespace SistemaF.Domain.Tests.Ordine;
@@ -336,7 +337,7 @@ public sealed class PropostaOrdineTests
 
 public sealed class OrdineTests
 {
-    private static (PropostaOrdine proposta, OrdineAggregate ordine) CreaOrdineTest()
+    private static (PropostaOrdine proposta, SistemaF.Domain.Entities.Ordine.Ordine ordine) CreaOrdineTest()
     {
         var operatoreId  = Guid.NewGuid();
         var proposta     = OrdineTestFactory.Proposta(operatoreId);

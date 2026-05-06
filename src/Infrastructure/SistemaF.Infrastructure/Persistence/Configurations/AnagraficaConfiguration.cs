@@ -198,7 +198,6 @@ internal sealed class ConfigurazioneEmissioneConfiguration
         b.HasIndex(c => c.Nome).HasDatabaseName("IX_Configurazioni_Nome");
         b.HasIndex(c => c.IsAttiva).HasDatabaseName("IX_Configurazioni_Attive");
 
-        b.Ignore(c => c.DomainEvents);
     }
 }
 
@@ -225,6 +224,5 @@ internal sealed class ConfigurazioneEmissioneFornitoreConfiguration
         b.HasIndex(c => new { c.ConfigurazioneId, c.FornitoreId }).IsUnique()
          .HasDatabaseName("UX_ConfigurazioniFornitori_Pair");
 
-        b.Ignore(c => c.DomainEvents);
     }
 }

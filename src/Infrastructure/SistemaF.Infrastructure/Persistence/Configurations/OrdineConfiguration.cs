@@ -106,7 +106,6 @@ internal sealed class RigaOrdineConfiguration : IEntityTypeConfiguration<RigaOrd
         b.HasIndex(r => r.ProdottoId).HasDatabaseName("IX_RigheOrdine_Prodotto");
 
         b.Ignore(r => r.CostoTotale);
-        b.Ignore(r => r.DomainEvents);
     }
 }
 
@@ -179,7 +178,6 @@ internal sealed class PropostaOrdineConfiguration : IEntityTypeConfiguration<Pro
         b.Ignore(p => p.NumeroProdottiInProposta);
         b.Ignore(p => p.NumeroProdottiConFornitore);
         b.Ignore(p => p.RigheDaEmettere);
-        b.Ignore(p => p.DomainEvents);
     }
 }
 
@@ -260,6 +258,5 @@ internal sealed class PropostaRigaConfiguration : IEntityTypeConfiguration<Propo
         b.Ignore(r => r.GiacenzaTotale);
         b.Ignore(r => r.HaFornitoriAbilitati);
         b.Ignore(r => r.NumeroFornitoriConQuantita);
-        b.Ignore(r => r.DomainEvents);
     }
 }

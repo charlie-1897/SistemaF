@@ -35,11 +35,6 @@ internal sealed class RicercaProdottoService(SistemaFDbContext db)
             .AsNoTracking()
             .Where(p => p.IsAttivo);
 
-        // Filtro settore (es. solo farmaci "A", solo parafarmaci, ecc.)
-        if (criterio.SettoreInventario is not null)
-            query = query.Where(p =>
-                EF.Functions.Like(p.SettoreInventario ?? "", criterio.SettoreInventario));
-
         // Applica la strategia di ricerca corretta
         query = criterio.Tipo switch
         {
@@ -110,9 +105,12 @@ internal sealed class RicercaProdottoService(SistemaFDbContext db)
         // Formato "A" + 9 cifre (scanner legacy)
         if (prodotto is null && codice.Length == 10 && codice[0] == 'A'
             && codice[1..].All(char.IsDigit))
+        {
+            var codiceStripped = codice[1..]; // calcola fuori dall'expression tree
             prodotto = await db.Prodotti.AsNoTracking()
-                .FirstOrDefaultAsync(p => p.CodiceFarmaco.Valore == codice[1..]
+                .FirstOrDefaultAsync(p => p.CodiceFarmaco.Valore == codiceStripped
                                        && p.IsAttivo, ct);
+        }
 
         return prodotto is null ? null : ToRisultato(prodotto);
     }
@@ -127,7 +125,7 @@ internal sealed class RicercaProdottoService(SistemaFDbContext db)
         Descrizione:         p.Descrizione,
         Classe:              p.Classe.ToString(),
         CategoriaRicetta:    p.CategoriaRicetta.ToString(),
-        PrezzoVendita:       p.PrezzoVendita.Valore,
+        PrezzoVendita:       p.PrezzoVendita.Importo,
         AliquotaIVA:         p.PrezzoVendita.AliquotaIVA,
         GiacenzaEsposizione: p.GiacenzaEsposizione.Giacenza,
         GiacenzaMagazzino:   p.GiacenzaMagazzino.Giacenza,

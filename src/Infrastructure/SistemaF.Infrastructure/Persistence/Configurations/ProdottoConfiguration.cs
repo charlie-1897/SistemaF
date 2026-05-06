@@ -161,7 +161,6 @@ internal sealed class ProdottoConfiguration : IEntityTypeConfiguration<Prodotto>
 
         // ── Ignora domain events (non persistiti) ──────────────────────────
 
-        b.Ignore(p => p.DomainEvents);
         b.Ignore(p => p.GiacenzaTotale);
         b.Ignore(p => p.IsSottoscorta);
         b.Ignore(p => p.IsMutuabile);
@@ -195,6 +194,5 @@ internal sealed class ScadenzaProdottoConfiguration : IEntityTypeConfiguration<S
         b.Ignore(s => s.IsScaduto);
         b.Ignore(s => s.IsInScadenza);
         b.Ignore(s => s.GiorniAllaScadenza);
-        b.Ignore(s => s.DomainEvents);
     }
 }

@@ -15,6 +15,12 @@ public sealed class SistemaFDbContext(DbContextOptions<SistemaFDbContext> option
     public DbSet<RigaOrdine>       RigheOrdine    => Set<RigaOrdine>();
     public DbSet<PropostaOrdine>   ProposteOrdine => Set<PropostaOrdine>();
     public DbSet<PropostaRiga>     ProposteRighe  => Set<PropostaRiga>();
+    // Modulo Anagrafica
+    public DbSet<Fornitore>                          Fornitori                        => Set<Fornitore>();
+    public DbSet<Operatore>                          Operatori                        => Set<Operatore>();
+    public DbSet<Farmacia>                           Farmacie                         => Set<Farmacia>();
+    public DbSet<ConfigurazioneEmissione>            ConfigurazioniEmissione          => Set<ConfigurazioneEmissione>();
+    public DbSet<ConfigurazioneEmissioneFornitore>   ConfigurazioniEmissioneFornitori => Set<ConfigurazioneEmissioneFornitore>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

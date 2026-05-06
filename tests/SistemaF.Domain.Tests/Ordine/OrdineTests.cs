@@ -1,4 +1,3 @@
-using Ordine = SistemaF.Domain.Entities.Ordine.Ordine;
 using FluentAssertions;
 using SistemaF.Domain.Common;
 using SistemaF.Domain.Entities.Ordine;
@@ -359,7 +358,7 @@ public sealed class OrdineTests
 
         proposta.MarcaCompletata(RiepilogoElaborazione.Vuoto);
 
-        var ordine = Ordine.DaProposta(
+        var ordine = SistemaF.Domain.Entities.Ordine.Ordine.DaProposta(
             OrdineTestFactory.Numero2025(),
             proposta, fornitore, "DISTRIBUZIONE SRL");
 
@@ -392,7 +391,7 @@ public sealed class OrdineTests
         var fornitore = OrdineTestFactory.Grossista();
         proposta.AggiungiFornitori([fornitore]);
 
-        ((Action)(() => Ordine.DaProposta(
+        ((Action)(() => SistemaF.Domain.Entities.Ordine.Ordine.DaProposta(
             OrdineTestFactory.Numero2025(),
             proposta, fornitore, "TEST SRL")))
         .Should().Throw<BusinessRuleViolationException>();

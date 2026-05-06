@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SistemaF.Infrastructure.Persistence;
 using SistemaF.Domain.Entities.Ordine;
 using SistemaF.Domain.Entities.Prodotto;
 using SistemaF.Domain.Interfaces;

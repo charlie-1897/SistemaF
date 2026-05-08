@@ -77,8 +77,8 @@ public static class InfrastructureDependencyInjection
         await db.Database.MigrateAsync();
         if (seedDemoData)
         {
-            await Seed.DataSeeder.SeedAsync(db);
-            await Seed.DataSeeder.SeedAnagraficaAsync(db);
+            await DataSeeder.SeedAsync(db);
+            await DataSeeder.SeedAnagraficaAsync(db);
         }
     }
 }

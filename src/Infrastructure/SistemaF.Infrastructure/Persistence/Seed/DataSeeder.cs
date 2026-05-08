@@ -147,8 +147,7 @@ public static class DataSeeder
         // Giacenza esposizione
         p.VariaGiacenzaEsposizione(
             ModalitaVariazioneGiacenza.Sostituzione,
-            qtaExp, TipoAzioneRettifica.Aggiunta,
-            TipoCosaRettifica.GiacenzaEsposizione,
+            qtaExp,
             TipoModuloRettifica.Magazzino);
 
         // Scorte esposizione
@@ -157,8 +156,7 @@ public static class DataSeeder
         // Giacenza magazzino
         p.VariaGiacenzaMagazzino(
             ModalitaVariazioneGiacenza.Sostituzione,
-            qtaMag, TipoAzioneRettifica.Aggiunta,
-            TipoCosaRettifica.GiacenzaMagazzino,
+            qtaMag,
             TipoModuloRettifica.Magazzino);
 
         p.ClearDomainEvents();

@@ -126,21 +126,17 @@ public static class TestFactory
             descrizione,
             classe,
             CategoriaRicetta.NessunObbligo,
-            Prezzo.Da(prezzo, iva));
+            Prezzo.Di(prezzo, iva));
 
         p.VariaGiacenzaEsposizione(
             ModalitaVariazioneGiacenza.Sostituzione, qtaExp,
-            TipoAzioneRettifica.Incremento,
-            TipoCosaRettifica.GiacenzaEsposizione,
-            TipoModuloRettifica.ManualeSistema);
+            TipoModuloRettifica.Magazzino);
 
         p.ImpostaScorteEsposizione(3, qtaExp + 5);
 
         p.VariaGiacenzaMagazzino(
             ModalitaVariazioneGiacenza.Sostituzione, qtaMag,
-            TipoAzioneRettifica.Incremento,
-            TipoCosaRettifica.GiacenzaMagazzino,
-            TipoModuloRettifica.ManualeSistema);
+            TipoModuloRettifica.Magazzino);
 
         p.ClearDomainEvents();
         return p;

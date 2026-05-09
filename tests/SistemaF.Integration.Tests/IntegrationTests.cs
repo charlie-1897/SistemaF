@@ -122,8 +122,6 @@ public sealed class ProdottoRepositoryTests : IDisposable
         // Scarica 5 pezzi dall'esposizione
         p.VariaGiacenzaEsposizione(
             ModalitaVariazioneGiacenza.Sottrazione, 5,
-            TipoAzioneRettifica.Decremento,
-            TipoCosaRettifica.GiacenzaEsposizione,
             TipoModuloRettifica.Vendita);
         repo.Update(p);
         await uow.SaveChangesAsync();

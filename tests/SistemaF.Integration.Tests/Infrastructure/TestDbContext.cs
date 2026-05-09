@@ -116,12 +116,13 @@ public static class TestFactory
     public static Prodotto Prodotto(
         string codice       = "012345678",
         string descrizione  = "PRODOTTO TEST 100MG",
-        ClasseFarmaco classe = ClasseFarmaco.C,
+        ClasseFarmaco? classe = null,
         decimal prezzo      = 5.00m,
         int iva             = 10,
         int qtaExp          = 10,
         int qtaMag          = 30)
     {
+        classe ??= ClasseFarmaco.C;
         var p = Domain.Entities.Prodotto.Prodotto.Crea(
             CodiceProdotto.Da(codice),
             descrizione,

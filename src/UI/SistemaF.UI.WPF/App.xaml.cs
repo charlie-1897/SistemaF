@@ -7,6 +7,7 @@ using SistemaF.UI.WPF.ViewModels.Prodotti;
 using SistemaF.UI.WPF.ViewModels.Shell;
 using SistemaF.UI.WPF.Views.Shell;
 using System.Windows;
+using Application = System.Windows.Application;
 
 namespace SistemaF.UI.WPF;
 

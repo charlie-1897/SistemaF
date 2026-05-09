@@ -5,6 +5,7 @@ using MediatR;
 using SistemaF.Application;
 using SistemaF.Domain.Entities.Anagrafica;
 using SistemaF.Domain.Entities.Ordine;
+using SistemaF.Domain.Common;
 using SistemaF.Domain.Entities.Prodotto;
 using SistemaF.Domain.Entities.Ricerca;
 using SistemaF.Domain.ValueObjects;

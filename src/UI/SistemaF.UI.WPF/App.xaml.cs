@@ -2,7 +2,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using SistemaF.Application;
 using SistemaF.Infrastructure;
 using SistemaF.UI.WPF.ViewModels.Prodotti;
 using SistemaF.UI.WPF.ViewModels.Shell;

@@ -47,7 +47,7 @@ public sealed partial class ProdottiViewModel(IMediator mediator) : ObservableOb
             var risultati = await mediator.Send(
                 new CercaProdottiQuery(TermineRicerca, Limit: 50), ct);
 
-            foreach (var p in risultati)
+            foreach (var p in risultati.Prodotti)
                 Prodotti.Add(p);
 
             if (!Prodotti.Any())

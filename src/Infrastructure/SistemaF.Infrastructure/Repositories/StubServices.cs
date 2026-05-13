@@ -1,27 +1,25 @@
-using Microsoft.EntityFrameworkCore;
-using SistemaF.Infrastructure.Persistence;
 using SistemaF.Domain.Entities.Ordine;
 using SistemaF.Domain.Entities.Prodotto;
 using SistemaF.Domain.Interfaces;
 
 namespace SistemaF.Infrastructure.Repositories;
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  STUB SERVICES — Implementazioni temporanee per la Wave 1 MVP
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+//  STUB SERVICES \u2014 Implementazioni temporanee per la Wave 1 MVP
 //
 //  Questi stub permettono alla pipeline EmissioneOrdineService di girare
 //  con dati realistici senza che CSFOrdCommon e CSFOff siano ancora migrati.
 //
 //  Verranno sostituiti con implementazioni reali in Wave 2:
-//    IUltimiCostiService    → CSFOrdCommon.clsCampiStoriciProdotto
-//    IListiniFornitorService → CSFOff.CListinoFornitore
-//    IScontiCondizioniService → CSFOrdCommon.clsScontiCondizioni
-//    IOfferteService        → CSFOff.COfferte57
-//    IIndiciVenditaService  → CSFOrdCommon.clsCalcola (IndiceVendita_*)
-//    IArchivioPropostaService → CSFOrdCommon + CSFMag
-// ═══════════════════════════════════════════════════════════════════════════════
+//    IUltimiCostiService    \u2192 CSFOrdCommon.clsCampiStoriciProdotto
+//    IListiniFornitorService \u2192 CSFOff.CListinoFornitore
+//    IScontiCondizioniService \u2192 CSFOrdCommon.clsScontiCondizioni
+//    IOfferteService        \u2192 CSFOff.COfferte57
+//    IIndiciVenditaService  \u2192 CSFOrdCommon.clsCalcola (IndiceVendita_*)
+//    IArchivioPropostaService \u2192 CSFOrdCommon + CSFMag
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 
-internal sealed class StubUltimiCostiService : IUltimiCostiService
+public sealed class StubUltimiCostiService : IUltimiCostiService
 {
     // Restituisce un costo simulato ~60% del prezzo al pubblico
     public Task<IReadOnlyDictionary<Guid, decimal?>> GetUltimiCostiAsync(
@@ -35,7 +33,7 @@ internal sealed class StubUltimiCostiService : IUltimiCostiService
     }
 }
 
-internal sealed class StubListiniFornitorService : IListiniFornitorService
+public sealed class StubListiniFornitorService : IListiniFornitorService
 {
     public Task<IReadOnlyDictionary<Guid, decimal>> GetCostiListinoAsync(
         Guid prodottoId, IEnumerable<Guid> fornitoriIds, CancellationToken ct = default)
@@ -47,7 +45,7 @@ internal sealed class StubListiniFornitorService : IListiniFornitorService
     }
 }
 
-internal sealed class StubScontiCondizioniService : IScontiCondizioniService
+public sealed class StubScontiCondizioniService : IScontiCondizioniService
 {
     public Task<IReadOnlyDictionary<Guid, ScontoCondizione>> GetScontiAsync(
         Guid prodottoId, string settore, string classe, string categoriaRicetta,
@@ -64,7 +62,7 @@ internal sealed class StubScontiCondizioniService : IScontiCondizioniService
     }
 }
 
-internal sealed class StubOfferteService : IOfferteService
+public sealed class StubOfferteService : IOfferteService
 {
     public Task<IReadOnlyList<OffertaProdotto>> GetOfferteAsync(
         Guid prodottoId, int quantitaMax, IEnumerable<Guid> fornitoriIds,
@@ -72,7 +70,7 @@ internal sealed class StubOfferteService : IOfferteService
         => Task.FromResult<IReadOnlyList<OffertaProdotto>>([]);
 }
 
-internal sealed class StubIndiciVenditaService : IIndiciVenditaService
+public sealed class StubIndiciVenditaService : IIndiciVenditaService
 {
     // Indici simulati: ~2.5 pezzi/giorno = tipico prodotto medio farmacia
     public Task<decimal> GetTendenzialeAsync(Guid pid, DateOnly d, CancellationToken ct)
@@ -87,7 +85,7 @@ internal sealed class StubIndiciVenditaService : IIndiciVenditaService
         => Task.FromResult(2.3m);
 }
 
-internal sealed class StubArchivioPropostaService : IArchivioPropostaService
+public sealed class StubArchivioPropostaService : IArchivioPropostaService
 {
     public Task<IReadOnlyList<ProdottoArchivio>> GetProdottiDaOrdinareAsync(
         Guid configurazioneId, Guid fornitoreId,
@@ -95,9 +93,9 @@ internal sealed class StubArchivioPropostaService : IArchivioPropostaService
         => Task.FromResult<IReadOnlyList<ProdottoArchivio>>([]);
 }
 
-// ── Repository implementations aggiornati (Ordine nuovo modulo) ───────────────
+// \u2500\u2500 Repository implementations aggiornati (Ordine nuovo modulo) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
-internal sealed class OrdineRepositoryImpl(SistemaFDbContext db)
+public sealed class OrdineRepositoryImpl(SistemaFDbContext db)
     : IOrdineRepository
 {
     public Task<Ordine?> GetByIdAsync(Guid id, CancellationToken ct = default)
@@ -149,7 +147,7 @@ internal sealed class OrdineRepositoryImpl(SistemaFDbContext db)
              o => o.FornitoreId == fornitoreId && o.Stato == stato, ct);
 }
 
-internal sealed class PropostaOrdineRepositoryImpl(SistemaFDbContext db)
+public sealed class PropostaOrdineRepositoryImpl(SistemaFDbContext db)
     : IPropostaOrdineRepository
 {
     public Task<PropostaOrdine?> GetByIdAsync(Guid id, CancellationToken ct = default)

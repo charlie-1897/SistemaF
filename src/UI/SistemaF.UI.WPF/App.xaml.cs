@@ -23,51 +23,37 @@ public partial class App : Application
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .WriteTo.File("logs/sistemaf-.log",
-                    rollingInterval: RollingInterval.Day,
-                    retainedFileCountLimit: 30))
-            .ConfigureAppConfiguration((ctx, cfg) =>
-            {
-                cfg.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                cfg.AddJsonFile(
-                    $"appsettings.{ctx.HostingEnvironment.EnvironmentName}.json",
-                    optional: true, reloadOnChange: true);
-                cfg.AddEnvironmentVariables("SISTEMAF_");
-            })
+                    rollingInterval: RollingInterval.Day))
+            .ConfigureAppConfiguration(cfg => cfg
+                .AddJsonFile("appsettings.json", optional: false)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production"}.json", optional: true))
             .ConfigureServices((ctx, services) =>
             {
-                services.AddApplication();
                 services.AddInfrastructure(ctx.Configuration);
+                services.AddApplication();
 
-                // ViewModels
-                services.AddTransient<MainWindowViewModel>();
+                // ViewModel WPF
+                services.AddTransient<ShellViewModel>();
                 services.AddTransient<RicercaProdottoViewModel>();
-
-                // Finestre
-                services.AddTransient<MainWindow>();
+                services.AddTransient<ShellWindow>();
             })
             .Build();
 
-        if (_host.Services.GetRequiredService<IHostEnvironment>().IsDevelopment())
-            await InfrastructureDependencyInjection.InitializeDatabaseAsync(
-                _host.Services, seedDemoData: true);
-
         await _host.StartAsync();
 
-        var window = _host.Services.GetRequiredService<MainWindow>();
-        window.Show();
+        var shell = _host.Services.GetRequiredService<ShellWindow>();
+        shell.Show();
 
         base.OnStartup(e);
     }
 
     protected override async void OnExit(ExitEventArgs e)
     {
-        await _host.StopAsync();
-        _host.Dispose();
-        Log.CloseAndFlush();
+        if (_host is not null)
+        {
+            await _host.StopAsync();
+            _host.Dispose();
+        }
         base.OnExit(e);
     }
-
-    /// <summary>Punto di accesso globale ai servizi (per XAML code-behind).</summary>
-    public static T GetService<T>() where T : notnull
-        => ((App)Current)._host.Services.GetRequiredService<T>();
 }

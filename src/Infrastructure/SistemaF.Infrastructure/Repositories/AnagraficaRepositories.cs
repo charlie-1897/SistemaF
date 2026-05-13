@@ -5,9 +5,9 @@ using SistemaF.Infrastructure.Persistence;
 
 namespace SistemaF.Infrastructure.Repositories;
 
-// ── Fornitore ─────────────────────────────────────────────────────────────────
+// \u2500\u2500 Fornitore \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
-internal sealed class FornitoreRepository(SistemaFDbContext db)
+public sealed class FornitoreRepository(SistemaFDbContext db)
     : IFornitoreRepository
 {
     public Task<Fornitore?> GetByIdAsync(Guid id, CancellationToken ct = default)
@@ -43,9 +43,9 @@ internal sealed class FornitoreRepository(SistemaFDbContext db)
              f => f.IsMagazzino && f.IsAttivo, ct);
 }
 
-// ── Operatore ─────────────────────────────────────────────────────────────────
+// \u2500\u2500 Operatore \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
-internal sealed class OperatoreRepository(SistemaFDbContext db)
+public sealed class OperatoreRepository(SistemaFDbContext db)
     : IOperatoreRepository
 {
     public Task<Operatore?> GetByIdAsync(Guid id, CancellationToken ct = default)
@@ -75,9 +75,9 @@ internal sealed class OperatoreRepository(SistemaFDbContext db)
              .ToListAsync(ct);
 }
 
-// ── ConfigurazioneEmissione ───────────────────────────────────────────────────
+// \u2500\u2500 ConfigurazioneEmissione \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
-internal sealed class ConfigurazioneEmissioneRepository(SistemaFDbContext db)
+public sealed class ConfigurazioneEmissioneRepository(SistemaFDbContext db)
     : IConfigurazioneEmissioneRepository
 {
     public Task<ConfigurazioneEmissione?> GetByIdAsync(Guid id, CancellationToken ct)
@@ -127,9 +127,9 @@ internal sealed class ConfigurazioneEmissioneRepository(SistemaFDbContext db)
     }
 }
 
-// ── Farmacia ──────────────────────────────────────────────────────────────────
+// \u2500\u2500 Farmacia \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
-internal sealed class FarmaciaRepository(SistemaFDbContext db)
+public sealed class FarmaciaRepository(SistemaFDbContext db)
     : IFarmaciaRepository
 {
     public Task<Farmacia?> GetByIdAsync(Guid id, CancellationToken ct)

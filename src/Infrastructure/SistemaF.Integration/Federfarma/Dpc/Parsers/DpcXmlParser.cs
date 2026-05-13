@@ -3,19 +3,19 @@ using SistemaF.Integration.Federfarma.Dpc.Models;
 
 namespace SistemaF.Integration.Federfarma.Dpc.Parsers;
 
-// ═══════════════════════════════════════════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  DPC XML PARSER
 //
 //  Migrazione di getXMLDPC_Distinta in CSFWebDpcLombardia.vb.
 //
-//  Il VB.NET usava XmlTextReader in modalità forward-only con state machine
+//  Il VB.NET usava XmlTextReader in modalit\u00e0 forward-only con state machine
 //  manuale (iR, iPT, iPR come contatori). La logica era:
-//    - Quando trova <Ricetta> → crea nuova ricetta, incrementa iR
-//    - Quando trova <Prodotto> → crea nuovo prodotto, incrementa iPT e iPR
+//    - Quando trova <Ricetta> \u2192 crea nuova ricetta, incrementa iR
+//    - Quando trova <Prodotto> \u2192 crea nuovo prodotto, incrementa iPT e iPR
 //    - I prodotti vengono aggiunti sia a cProdotti (piatta) che a cProdotto (per ricetta)
-//    - Quando trova </Prodotto> → assegna cProdotto alla ricetta e resetta iPR=-1
+//    - Quando trova </Prodotto> \u2192 assegna cProdotto alla ricetta e resetta iPR=-1
 //
-//  In C# usiamo XDocument (LINQ to XML) che è più leggibile e sicuro.
+//  In C# usiamo XDocument (LINQ to XML) che \u00e8 pi\u00f9 leggibile e sicuro.
 //
 //  Struttura XML attesa (dedotta dal VB.NET):
 //    <Distinta>
@@ -42,7 +42,7 @@ namespace SistemaF.Integration.Federfarma.Dpc.Parsers;
 //        </Ricetta>
 //      </Ricette>
 //    </Distinta>
-// ═══════════════════════════════════════════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 
 public sealed class DpcXmlParser
 {
@@ -59,7 +59,7 @@ public sealed class DpcXmlParser
     }
 
     /// <summary>
-    /// Parsifica un flusso XML DPC (es. risposta SOAP body già estratto).
+    /// Parsifica un flusso XML DPC (es. risposta SOAP body gi\u00e0 estratto).
     /// </summary>
     public Task<DistintaDpc> ParseStreamAsync(Stream stream, CancellationToken ct = default)
     {
@@ -78,17 +78,17 @@ public sealed class DpcXmlParser
         return Task.FromResult(Parse(doc));
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
     private static DistintaDpc Parse(XDocument doc)
     {
-        // Ricerca il nodo radice Distinta (può essere annidato nell'envelope SOAP)
+        // Ricerca il nodo radice Distinta (pu\u00f2 essere annidato nell'envelope SOAP)
         var distinta = doc.Descendants()
                           .FirstOrDefault(e => e.Name.LocalName.Equals("Distinta", StringComparison.OrdinalIgnoreCase))
                       ?? doc.Root
                       ?? throw new InvalidDataException("Elemento <Distinta> non trovato nel documento XML.");
 
-        // ── Testata ────────────────────────────────────────────────────────────
+        // \u2500\u2500 Testata \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
         var mese   = Testo(distinta, "MeseCompetenza");
         var anno   = Testo(distinta, "AnnoCompetenza");
         var totPP  = Decimale(distinta, "TotalePrezzoPubblicoProdotti");
@@ -101,7 +101,7 @@ public sealed class DpcXmlParser
         var nRic   = Intero(distinta, "NumeroRicette");
         var nProd  = Intero(distinta, "NumeroProdotti");
 
-        // ── Ricette ────────────────────────────────────────────────────────────
+        // \u2500\u2500 Ricette \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
         var ricetteXml   = distinta.Descendants()
                                    .Where(e => e.Name.LocalName.Equals("Ricetta", StringComparison.OrdinalIgnoreCase));
         var ricette      = new List<RicettaDpc>();
@@ -176,7 +176,7 @@ public sealed class DpcXmlParser
             PercentualeGrossista = Decimale(p, "PercentualeGrossista"),
         };
 
-    // ── Helper XML ────────────────────────────────────────────────────────────
+    // \u2500\u2500 Helper XML \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
     /// <summary>Restituisce il testo del primo elemento figlio (case-insensitive).</summary>
     private static string Testo(XElement parent, string nome, string fallback = "")
@@ -186,7 +186,7 @@ public sealed class DpcXmlParser
            ?? fallback;
 
     /// <summary>
-    /// Converte il valore numerico — il VB.NET usava MyFormatDbl che sostituiva
+    /// Converte il valore numerico \u2014 il VB.NET usava MyFormatDbl che sostituiva
     /// il punto con la virgola (formato locale IT). Qui accettiamo entrambi.
     /// </summary>
     private static decimal Decimale(XElement parent, string nome)
@@ -201,14 +201,14 @@ public sealed class DpcXmlParser
         return int.TryParse(raw, out var v) ? v : fallback;
     }
 
-    internal static decimal ParseDecimale(string raw)
+    public static decimal ParseDecimale(string raw)
     {
         if (string.IsNullOrWhiteSpace(raw)) return 0m;
-        // Normalizza: "1.234,56" → "1234.56", "1234.56" → "1234.56"
+        // Normalizza: "1.234,56" \u2192 "1234.56", "1234.56" \u2192 "1234.56"
         var normalized = raw.Trim().Replace(".", "").Replace(",", ".");
         if (normalized.Contains('.') && normalized.IndexOf('.') != normalized.LastIndexOf('.'))
         {
-            // Ha più di un punto: formato errato, tenta con sostituzione semplice
+            // Ha pi\u00f9 di un punto: formato errato, tenta con sostituzione semplice
             normalized = raw.Trim().Replace(",", ".");
         }
         return decimal.TryParse(normalized,

@@ -5,27 +5,27 @@ using SistemaF.Infrastructure.Persistence;
 
 namespace SistemaF.Infrastructure.Services;
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  RICERCA PRODOTTO SERVICE — Infrastructure
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+//  RICERCA PRODOTTO SERVICE \u2014 Infrastructure
 //
 //  Implementazione EF Core di IRicercaProdottoService.
 //  Sostituisce le query SQL dirette su ProdBase/ProdEsteso del VB6.
 //
 //  Le 7 strategie di ricerca VB6 (costanti CSF*) mappano su metodi LINQ:
-//    CSFMINISTERIALE (1) → WHERE CodiceFarmaco = @termine (match esatto)
-//    CSFDESCRIZIONE  (4) → WHERE Descrizione LIKE @termine%
-//    CSFGRUPPO       (5) → WHERE Gruppo LIKE @termine%
-//    CSFATC          (8) → WHERE CodiceATC LIKE @termine%
-//    CSFCODICEEAN   (15) → WHERE CodiceEAN = @termine (match esatto)
-//    CSFCODGTIN     (27) → WHERE CodiceEAN = @termine13 (GTIN→EAN strip)
-//    CSFDITTA        (6) → WHERE CodiceDitta = @termine
-//    (default)           → CSFDESCRIZIONE
+//    CSFMINISTERIALE (1) \u2192 WHERE CodiceFarmaco = @termine (match esatto)
+//    CSFDESCRIZIONE  (4) \u2192 WHERE Descrizione LIKE @termine%
+//    CSFGRUPPO       (5) \u2192 WHERE Gruppo LIKE @termine%
+//    CSFATC          (8) \u2192 WHERE CodiceATC LIKE @termine%
+//    CSFCODICEEAN   (15) \u2192 WHERE CodiceEAN = @termine (match esatto)
+//    CSFCODGTIN     (27) \u2192 WHERE CodiceEAN = @termine13 (GTIN\u2192EAN strip)
+//    CSFDITTA        (6) \u2192 WHERE CodiceDitta = @termine
+//    (default)           \u2192 CSFDESCRIZIONE
 //
 //  Il fulltext avanzato del VB6 (ricerca estesa con "*") diventa qui
 //  LIKE '%termine%' con EF Core.
-// ═══════════════════════════════════════════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 
-internal sealed class RicercaProdottoService(SistemaFDbContext db)
+public sealed class RicercaProdottoService(SistemaFDbContext db)
     : IRicercaProdottoService
 {
     public async Task<IReadOnlyList<RisultatoRicerca>> CercaAsync(
@@ -34,6 +34,11 @@ internal sealed class RicercaProdottoService(SistemaFDbContext db)
         var query = db.Prodotti
             .AsNoTracking()
             .Where(p => p.IsAttivo);
+
+        // Filtro settore (es. solo farmaci "A", solo parafarmaci, ecc.)
+        if (criterio.SettoreInventario is not null)
+            query = query.Where(p =>
+                EF.Functions.Like(p.SettoreInventario ?? "", criterio.SettoreInventario));
 
         // Applica la strategia di ricerca corretta
         query = criterio.Tipo switch
@@ -65,7 +70,7 @@ internal sealed class RicercaProdottoService(SistemaFDbContext db)
             TipoRicercaProdotto.CategoriaRicetta =>
                 query.Where(p => p.Classe.ToString() == criterio.Termine),
 
-            // Descrizione è il default (CSFDESCRIZIONE = 4)
+            // Descrizione \u00e8 il default (CSFDESCRIZIONE = 4)
             _ =>
                 query.Where(p => EF.Functions.Like(
                     p.Descrizione, criterio.TerminePerLike))
@@ -105,17 +110,14 @@ internal sealed class RicercaProdottoService(SistemaFDbContext db)
         // Formato "A" + 9 cifre (scanner legacy)
         if (prodotto is null && codice.Length == 10 && codice[0] == 'A'
             && codice[1..].All(char.IsDigit))
-        {
-            var codiceStripped = codice[1..]; // calcola fuori dall'expression tree
             prodotto = await db.Prodotti.AsNoTracking()
-                .FirstOrDefaultAsync(p => p.CodiceFarmaco.Valore == codiceStripped
+                .FirstOrDefaultAsync(p => p.CodiceFarmaco.Valore == codice[1..]
                                        && p.IsAttivo, ct);
-        }
 
         return prodotto is null ? null : ToRisultato(prodotto);
     }
 
-    // ── Mapping ───────────────────────────────────────────────────────────────
+    // \u2500\u2500 Mapping \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
     private static RisultatoRicerca ToRisultato(Prodotto p) => new(
         ProdottoId:          p.Id,
@@ -125,7 +127,7 @@ internal sealed class RicercaProdottoService(SistemaFDbContext db)
         Descrizione:         p.Descrizione,
         Classe:              p.Classe.ToString(),
         CategoriaRicetta:    p.CategoriaRicetta.ToString(),
-        PrezzoVendita:       p.PrezzoVendita.Importo,
+        PrezzoVendita:       p.PrezzoVendita.Valore,
         AliquotaIVA:         p.PrezzoVendita.AliquotaIVA,
         GiacenzaEsposizione: p.GiacenzaEsposizione.Giacenza,
         GiacenzaMagazzino:   p.GiacenzaMagazzino.Giacenza,

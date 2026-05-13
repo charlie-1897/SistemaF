@@ -62,6 +62,10 @@ public sealed class Prodotto : SoftDeletableAggregateRoot
     public bool IsIntegrativo   { get; private set; }   // ProdottoIntegrativo
     public bool IsPluriPrescrizione { get; private set; } // CSFPLURIPRESCRIZIONE=7
 
+    // ── 20260513 ───────────────────────────────────────────────────────────────
+    /// <summary>Alias di Disattiva — retrocompatibilità con i test.</summary>
+    public void Elimina(Guid? operatoreId = null) => Disattiva(operatoreId);
+
     // ── Prezzi ───────────────────────────────────────────────────────────────
 
     /// <summary>Prezzo al pubblico (attualePubblico in VB6).</summary>

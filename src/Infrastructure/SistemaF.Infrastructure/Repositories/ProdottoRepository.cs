@@ -7,9 +7,9 @@ using SistemaF.Infrastructure.Persistence;
 
 namespace SistemaF.Infrastructure.Repositories;
 
-internal sealed class ProdottoRepository(SistemaFDbContext db) : IProdottoRepository
+public sealed class ProdottoRepository(SistemaFDbContext db) : IProdottoRepository
 {
-    // ── Base IRepository<Prodotto> ────────────────────────────────────────────
+    // \u2500\u2500 Base IRepository<Prodotto> \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
     public Task<Prodotto?> GetByIdAsync(Guid id, CancellationToken ct)
         => db.Prodotti
@@ -28,7 +28,7 @@ internal sealed class ProdottoRepository(SistemaFDbContext db) : IProdottoReposi
     public void Remove(Prodotto p)
         => db.Prodotti.Remove(p);
 
-    // ── Ricerche per chiave ───────────────────────────────────────────────────
+    // \u2500\u2500 Ricerche per chiave \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
     public Task<Prodotto?> GetByCodiceFarmacoAsync(CodiceProdotto codice, CancellationToken ct)
         => db.Prodotti
@@ -40,7 +40,7 @@ internal sealed class ProdottoRepository(SistemaFDbContext db) : IProdottoReposi
              .Include("_scadenze")
              .FirstOrDefaultAsync(p => p.CodiceEAN != null && p.CodiceEAN.Valore == ean.Valore, ct);
 
-    // ── Ricerche per Specification ────────────────────────────────────────────
+    // \u2500\u2500 Ricerche per Specification \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
     public async Task<IReadOnlyList<Prodotto>> CercaAsync(
         Specification<Prodotto> spec,
@@ -56,7 +56,7 @@ internal sealed class ProdottoRepository(SistemaFDbContext db) : IProdottoReposi
     public Task<int> ContaAsync(Specification<Prodotto> spec, CancellationToken ct)
         => db.Prodotti.CountAsync(spec.ToExpression(), ct);
 
-    // ── Query di business ────────────────────────────────────────────────────
+    // \u2500\u2500 Query di business \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
     public async Task<IReadOnlyList<Prodotto>> GetSottoscortaAsync(CancellationToken ct)
         => await db.Prodotti
@@ -89,15 +89,11 @@ internal sealed class ProdottoRepository(SistemaFDbContext db) : IProdottoReposi
                    .OrderBy(p => p.Descrizione)
                    .ToListAsync(ct);
 
-    // ── Esistenza ─────────────────────────────────────────────────────────────
+    // \u2500\u2500 Esistenza \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
     public Task<bool> EsisteCodiceFarmacoAsync(CodiceProdotto codice, CancellationToken ct)
         => db.Prodotti.AnyAsync(p => p.CodiceFarmaco.Valore == codice.Valore, ct);
 
     public Task<bool> EsisteCodiceEANAsync(CodiceEAN ean, CancellationToken ct)
         => db.Prodotti.AnyAsync(p => p.CodiceEAN != null && p.CodiceEAN.Valore == ean.Valore, ct);
-
-    // Aggiunto nella Sessione 3 MVP
-    public async Task<IReadOnlyList<Prodotto>> GetAllAsync(CancellationToken ct = default)
-        => await db.Prodotti.AsNoTracking().OrderBy(p => p.Descrizione).ToListAsync(ct);
 }

@@ -16,6 +16,10 @@ public sealed class ProdottoRepository(SistemaFDbContext db) : IProdottoReposito
              .Include("_scadenze")
              .FirstOrDefaultAsync(p => p.Id == id, ct);
 
+    public async Task<IReadOnlyList<Prodotto>> GetAllAsync(CancellationToken ct = default)
+        => await db.Prodotti.OrderBy(p => p.Descrizione).ToListAsync(ct);
+
+
     public Task<bool> ExistsAsync(Guid id, CancellationToken ct)
         => db.Prodotti.AnyAsync(p => p.Id == id, ct);
 

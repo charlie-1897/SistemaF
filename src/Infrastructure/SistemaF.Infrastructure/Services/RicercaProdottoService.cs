@@ -118,7 +118,7 @@ public sealed class RicercaProdottoService(SistemaFDbContext db)
     private static RisultatoRicerca ToRisultato(Prodotto p) => new(
         ProdottoId:          p.Id,
         CodiceFarmaco:       p.CodiceFarmaco.Valore,
-        CodiceEAN:           p.CodiceEAN?.Valore,
+        CodiceEAN:           p.CodiceEAN is null ? null : p.CodiceEAN.Valore,
         CodiceATC:           p.CodiceATC,
         Descrizione:         p.Descrizione,
         Classe:              p.Classe.ToString(),

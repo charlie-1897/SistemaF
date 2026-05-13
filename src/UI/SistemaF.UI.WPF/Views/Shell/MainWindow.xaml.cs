@@ -2,7 +2,6 @@ using SistemaF.UI.WPF.ViewModels.Shell;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace SistemaF.UI.WPF.Views.Shell;
 
@@ -11,15 +10,10 @@ public partial class MainWindow : Window
     public MainWindow(MainWindowViewModel vm)
     {
         InitializeComponent();
-
-        // Registra il converter inline come risorsa statica
         Resources["NavStyleConverter"] = new NavStyleConverter(this);
-
         DataContext = vm;
     }
 }
-
-// ── Converter per lo stile del bottone sidebar (attivo vs normale) ────────────
 
 /// <summary>
 /// Restituisce NavButtonActiveStyle o NavButtonStyle a seconda della
@@ -32,15 +26,14 @@ internal sealed class NavStyleConverter : IValueConverter
     public NavStyleConverter(FrameworkElement owner)
         => _owner = owner;
 
-    public object Convert(object? value, Type t, object? parameter, CultureInfo c)
+    public object? Convert(object? value, Type t, object? parameter, CultureInfo c)
     {
-        var attiva = value as string ?? "";
-        var target = parameter as string ?? "";
+        var attiva  = value     as string ?? "";
+        var target  = parameter as string ?? "";
         var isActive = attiva.Equals(target, StringComparison.OrdinalIgnoreCase);
 
         var chiave = isActive ? "NavButtonActiveStyle" : "NavButtonStyle";
-        return _owner.TryFindResource(chiave)
-               ?? System.Windows.Style.Empty;
+        return _owner.TryFindResource(chiave) ?? new Style();
     }
 
     public object ConvertBack(object? v, Type t, object? p, CultureInfo c)

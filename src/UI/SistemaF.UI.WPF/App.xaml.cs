@@ -1,7 +1,7 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using SistemaF.Application;
 using SistemaF.Infrastructure;
 using SistemaF.UI.WPF.ViewModels.Prodotti;
 using SistemaF.UI.WPF.ViewModels.Shell;
@@ -16,31 +16,29 @@ public partial class App : System.Windows.Application
 
     protected override async void OnStartup(StartupEventArgs e)
     {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.File("logs/sistemaf-.log", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
         _host = Host.CreateDefaultBuilder()
-            .UseSerilog((ctx, cfg) => cfg
-                .ReadFrom.Configuration(ctx.Configuration)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.File("logs/sistemaf-.log",
-                    rollingInterval: RollingInterval.Day))
-            .ConfigureAppConfiguration(cfg => cfg
-                .AddJsonFile("appsettings.json", optional: false)
-                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production"}.json", optional: true))
+            .UseSerilog()
             .ConfigureServices((ctx, services) =>
             {
                 services.AddInfrastructure(ctx.Configuration);
                 services.AddApplication();
 
-                // ViewModel WPF
-                services.AddTransient<ShellViewModel>();
+                services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<RicercaProdottoViewModel>();
-                services.AddTransient<ShellWindow>();
+                services.AddTransient<MainWindow>();
             })
             .Build();
 
         await _host.StartAsync();
 
-        var shell = _host.Services.GetRequiredService<ShellWindow>();
+        var shell = _host.Services.GetRequiredService<MainWindow>();
         shell.Show();
 
         base.OnStartup(e);
@@ -53,6 +51,7 @@ public partial class App : System.Windows.Application
             await _host.StopAsync();
             _host.Dispose();
         }
+        Log.CloseAndFlush();
         base.OnExit(e);
     }
 }

@@ -1,0 +1,18 @@
+  Individuazione dei progetti da ripristinare...
+  Tutti i progetti sono aggiornati per il ripristino.
+  SistemaF.Domain -> C:\Users\UTM-WIN11\Desktop\SistemaF\src\Core\SistemaF.Domain\bin\Debug\net8.0\SistemaF.Domain.dll
+  SistemaF.Integration -> C:\Users\UTM-WIN11\Desktop\SistemaF\src\Infrastructure\SistemaF.Integration\bin\Debug\net8.0\SistemaF.Integration.dll
+  SistemaF.Domain.Tests -> C:\Users\UTM-WIN11\Desktop\SistemaF\tests\SistemaF.Domain.Tests\bin\Debug\net8.0\SistemaF.Domain.Tests.dll
+  SistemaF.Application -> C:\Users\UTM-WIN11\Desktop\SistemaF\src\Core\SistemaF.Application\bin\Debug\net8.0\SistemaF.Application.dll
+C:\Users\UTM-WIN11\Desktop\SistemaF\src\Infrastructure\SistemaF.Infrastructure\Services\RicercaProdottoService.cs(122,30): warning CS8604: Possibile argomento di riferimento Null per il parametro 'vo' in 'SingleValueObject<string>.implicit operator string(SingleValueObject<string> vo)'. [C:\Users\UTM-WIN11\Desktop\SistemaF\src\Infrastructure\SistemaF.Infrastructure\SistemaF.Infrastructure.csproj]
+  SistemaF.Infrastructure -> C:\Users\UTM-WIN11\Desktop\SistemaF\src\Infrastructure\SistemaF.Infrastructure\bin\Debug\net8.0-windows\SistemaF.Infrastructure.dll
+  SistemaF.Integration.Tests -> C:\Users\UTM-WIN11\Desktop\SistemaF\tests\SistemaF.Integration.Tests\bin\Debug\net8.0-windows\SistemaF.Integration.Tests.dll
+  SistemaF.UI.WPF -> C:\Users\UTM-WIN11\Desktop\SistemaF\src\UI\SistemaF.UI.WPF\bin\Debug\net8.0-windows\SistemaF.dll
+
+Compilazione completata.
+
+C:\Users\UTM-WIN11\Desktop\SistemaF\src\Infrastructure\SistemaF.Infrastructure\Services\RicercaProdottoService.cs(122,30): warning CS8604: Possibile argomento di riferimento Null per il parametro 'vo' in 'SingleValueObject<string>.implicit operator string(SingleValueObject<string> vo)'. [C:\Users\UTM-WIN11\Desktop\SistemaF\src\Infrastructure\SistemaF.Infrastructure\SistemaF.Infrastructure.csproj]
+    Avvisi: 1
+    Errori: 0
+
+Tempo trascorso 00:00:09.47
